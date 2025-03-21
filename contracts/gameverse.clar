@@ -117,3 +117,45 @@
     level: uint
   }
 )
+
+;; Player Avatar Map
+(define-map avatar-metadata
+  { avatar-id: uint }
+  {
+    name: (string-ascii 50),
+    level: uint,
+    experience: uint,
+    achievements: (list 20 (string-ascii 50)),
+    equipped-assets: (list 5 uint),
+    world-access: (list 10 uint)
+  })
+
+;; Game Worlds
+(define-map game-worlds
+  { world-id: uint }
+  {
+    name: (string-ascii 50),
+    description: (string-ascii 200),
+    entry-requirement: uint,
+    active-players: uint,
+    total-rewards: uint
+  }
+)
+
+;; Leaderboard System
+(define-map leaderboard 
+  { player: principal }
+  { 
+    score: uint, 
+    games-played: uint,
+    total-rewards: uint,
+    avatar-id: uint,
+    rank: uint,
+    achievements: (list 20 (string-ascii 50))
+  }
+)
+
+;; Utility Functions
+(define-read-only (is-protocol-admin (sender principal))
+  (default-to false (map-get? protocol-admin-whitelist sender))
+)
